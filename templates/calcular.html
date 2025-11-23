@@ -36,6 +36,35 @@
 
     <div id="resultadoCalc" class="mt-4 p-3 border rounded shadow-sm bg-light text-center fw-semibold"></div>
   </div>
+
+  <hr class="my-5">
+
+  <div class="card shadow-sm p-4 mt-4">
+    <h5 class="mb-4"><i class="bi bi-lightning-charge-fill text-primary"></i> Cálculo Rápido (Meta/Hora x Minutos)</h5>
+
+    <form id="calcRapidoForm" class="row g-4">
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Meta por hora</label>
+        <input class="form-control form-control-lg" type="number" name="meta_hora" required>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Minutos</label>
+        <input class="form-control form-control-lg" type="number" name="minutos" value="60" required>
+      </div>
+
+      <div class="col-md-4 d-flex align-items-end">
+        <button class="btn btn-primary btn-lg w-100" type="submit">
+          <i class="bi bi-play-circle"></i> Calcular
+        </button>
+      </div>
+
+    </form>
+
+    <div id="resultadoCalcRapido" class="mt-4 p-3 border rounded shadow-sm bg-light text-center fw-semibold"></div>
+  </div>
+
 </div>
 
 <script>
@@ -46,5 +75,23 @@ document.getElementById('calcForm').addEventListener('submit', async e => {
   const data = await resp.json();
   document.getElementById('resultadoCalc').innerHTML = data.resultado;
 });
+
+document.getElementById('calcRapidoForm').addEventListener('submit', e => {
+  e.preventDefault();
+
+  const meta_hora = Number(e.target.meta_hora.value);
+  const minutos = Number(e.target.minutos.value);
+
+  let bruto = (meta_hora / 60) * minutos;
+  let decimal = bruto - Math.floor(bruto);
+  let resultado = decimal < 0.50 
+                  ? Math.floor(bruto) 
+                  : Math.ceil(bruto);
+
+
+  document.getElementById('resultadoCalcRapido').innerHTML = 
+    "Resultado: <strong>" + resultado.toFixed(0) + "</strong>";
+});
 </script>
+
 {% endblock %}

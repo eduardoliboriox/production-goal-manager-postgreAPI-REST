@@ -40,3 +40,22 @@ body {
   .sidebar.open { left: 0; }
 }
 .table { background: transparent; }
+
+@media(max-width: 767px){
+
+  /* Sidebar aberto no celular */
+  .sidebar.open {
+      background: #ffffff !important;  
+      border-right: 1px solid rgba(0,0,0,0.1);
+      backdrop-filter: none !important; 
+  }
+
+  /* Quando o tema for dark */
+  html[data-bs-theme="dark"] .sidebar.open {
+      background: #0b1320 !important;  
+  }
+
+  .sidebar {
+      opacity: 1 !important;
+  }
+}
