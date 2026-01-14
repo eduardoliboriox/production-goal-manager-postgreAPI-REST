@@ -24,6 +24,7 @@ def calcular_perda():
 
     resultado = calcular_perda_producao(meta_hora, producao_real)
 
-    return jsonify({"resultado": resultado})
+    return jsonify(resultado)
+
 
 

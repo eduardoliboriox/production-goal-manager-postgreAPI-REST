@@ -43,7 +43,6 @@ def calcular_perda_producao(meta_hora, producao_real):
         }
 
     minutos_por_peca = 60 / meta_hora
-
     tempo_produzido = producao_real * minutos_por_peca
     tempo_perdido = 60 - tempo_produzido
 
@@ -54,11 +53,9 @@ def calcular_perda_producao(meta_hora, producao_real):
         minutos += 1
         segundos = 0
 
-    pecas_faltantes = int(meta_hora - producao_real)
-
     return {
         "tempo_perdido": f"{minutos} minutos e {segundos:02d} segundos",
-        "pecas_faltantes": pecas_faltantes
+        "pecas_faltantes": int(meta_hora - producao_real)
     }
 
 
