@@ -60,5 +60,5 @@ def calcular_perda_producao(meta_hora, producao_real):
         minutos += 1
         segundos = 0
 
-    return f"{minutos} minutos e {segundos:02d} segundos"
+    return f"Perda de Produção: {minutos} minutos e {segundos:02d} segundos"
 
