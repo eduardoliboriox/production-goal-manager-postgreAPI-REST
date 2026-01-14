@@ -6,7 +6,6 @@ def listar_codigos():
             cur.execute("SELECT codigo FROM modelos ORDER BY codigo")
             return [r["codigo"] for r in cur.fetchall()]
 
-
 def listar_modelos():
     with get_db() as conn:
         with conn.cursor() as cur:
@@ -16,7 +15,6 @@ def listar_modelos():
                 ORDER BY codigo
             """)
             return cur.fetchall()
-
 
 def inserir(dados):
     with get_db() as conn:
