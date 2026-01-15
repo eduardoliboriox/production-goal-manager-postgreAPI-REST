@@ -4,8 +4,13 @@
 
 {% block content %}
 <div class="container-fluid">
-  <div class="card shadow-sm p-4">
-    <h5 class="mb-4"><i class="bi bi-calculator-fill text-success"></i> Calcular Meta Ajustada</h5>
+
+  <!-- ================= META AJUSTADA ================= -->
+  <div class="card shadow-sm p-4 mb-5">
+    <h5 class="mb-4">
+      <i class="bi bi-calculator-fill text-success"></i>
+      Calcular Meta Ajustada
+    </h5>
 
     <form id="calcForm" class="row g-4">
       <div class="col-md-3">
@@ -34,13 +39,17 @@
       </div>
     </form>
 
-    <div id="resultadoCalc" class="mt-4 p-3 border rounded shadow-sm bg-light text-center fw-semibold"></div>
+    <div id="resultadoCalc"
+         class="mt-4 p-3 border rounded shadow-sm bg-light text-center fw-semibold">
+    </div>
   </div>
 
-  <hr class="my-5">
-
-  <div class="card shadow-sm p-4 mt-4">
-    <h5 class="mb-4"><i class="bi bi-lightning-charge-fill text-primary"></i> Cálculo Rápido (Meta/Hora x Minutos)</h5>
+  <!-- ================= CÁLCULO RÁPIDO ================= -->
+  <div class="card shadow-sm p-4 mb-5">
+    <h5 class="mb-4">
+      <i class="bi bi-lightning-charge-fill text-primary"></i>
+      Cálculo Rápido (Meta/Hora × Minutos)
+    </h5>
 
     <form id="calcRapidoForm" class="row g-4">
 
@@ -54,137 +63,163 @@
         <input class="form-control form-control-lg" type="number" name="minutos" value="60" required>
       </div>
 
-    <div class="col-md-4" id="campoBlank" style="display:none;">
+      <div class="col-md-4 d-none" id="campoBlank">
         <label class="form-label fw-semibold">Blank</label>
-        <input class="form-control form-control-lg" type="number" name="blank" value="0">
-    </div>
-
-  <div class="col-md-4 d-flex align-items-center">
-      <div class="form-check form-switch mt-4">
-          <input class="form-check-input" type="checkbox" id="usarBlank" name="usar_blank">
-          <label class="form-check-label fw-semibold" for="usarBlank">Considerar Blank</label>
+        <input class="form-control form-control-lg" type="number" name="blank">
       </div>
-  </div>
 
-  <div class="col-md-4 d-flex align-items-end">
+      <div class="col-md-4 d-flex align-items-center">
+        <div class="form-check form-switch mt-4">
+          <input class="form-check-input" type="checkbox" id="usarBlank">
+          <label class="form-check-label fw-semibold">Considerar Blank</label>
+        </div>
+      </div>
+
+      <div class="col-md-4 d-flex align-items-end">
         <button class="btn btn-primary btn-lg w-100" type="submit">
           <i class="bi bi-play-circle"></i> Calcular
         </button>
       </div>
-
-      <hr class="my-5">
-
-<div class="card shadow-sm p-4">
-  <h5 class="mb-4">
-    <i class="bi bi-cpu-fill text-danger"></i>
-    Cálculo SMT (Manual / Cronômetro)
-  </h5>
-
-  <form id="smtForm" class="row g-3">
-
-    <div class="col-md-4">
-      <label class="form-label fw-semibold">Tempo de montagem (s)</label>
-      <input id="tempoMontagem" class="form-control form-control-lg" type="number" step="0.01">
-    </div>
-
-    <div class="col-md-4">
-      <label class="form-label fw-semibold">Blank</label>
-      <input id="blankSMT" class="form-control form-control-lg" type="number" required>
-    </div>
-
-    <div class="col-md-4 d-flex align-items-end gap-2">
-      <button id="startTimer" type="button" class="btn btn-outline-success w-100">
-        ▶ Start
-      </button>
-      <button id="stopTimer" type="button" class="btn btn-outline-danger w-100">
-        ⏹ Stop
-      </button>
-    </div>
-
-    <div class="col-12">
-      <button class="btn btn-danger btn-lg w-100" type="submit">
-        Calcular Meta SMT
-      </button>
-    </div>
-  </form>
-
-  <div id="resultadoSMT" class="mt-4 p-3 border rounded shadow-sm bg-light text-center fw-semibold"></div>
-
-  <hr class="my-4">
-
-  <h6 class="fw-bold">Cálculo Inverso</h6>
-
-  <form id="smtInversoForm" class="row g-3 mt-2">
-    <div class="col-md-6">
-      <label class="form-label">Meta Hora</label>
-      <input id="metaHoraInv" class="form-control form-control-lg" type="number">
-    </div>
-
-    <div class="col-md-6">
-      <label class="form-label">Blank</label>
-      <input id="blankInv" class="form-control form-control-lg" type="number">
-    </div>
-
-    <div class="col-12">
-      <button class="btn btn-outline-primary btn-lg w-100" type="submit">
-        Calcular Tempo de Montagem
-      </button>
-    </div>
-  </form>
-
-  <div id="resultadoInverso" class="mt-3 text-center fw-semibold"></div>
-</div>
-
     </form>
 
-    <div id="resultadoCalcRapido" class="mt-4 p-3 border rounded shadow-sm bg-light text-center fw-semibold"></div>
+    <div id="resultadoCalcRapido"
+         class="mt-4 p-3 border rounded shadow-sm bg-light text-center fw-semibold">
+    </div>
+  </div>
+
+  <!-- ================= SMT MANUAL ================= -->
+  <div class="card shadow-sm p-4">
+    <h5 class="mb-4">
+      <i class="bi bi-cpu-fill text-danger"></i>
+      Cálculo SMT (Manual / Cronômetro)
+    </h5>
+
+    <form id="smtForm" class="row g-3">
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Tempo de montagem (s)</label>
+        <input name="tempo_montagem"
+               class="form-control form-control-lg"
+               type="number"
+               step="0.01"
+               required>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Blank</label>
+        <input name="blank"
+               class="form-control form-control-lg"
+               type="number"
+               required>
+      </div>
+
+      <div class="col-md-4 d-flex align-items-end">
+        <button class="btn btn-danger btn-lg w-100" type="submit">
+          Calcular Meta SMT
+        </button>
+      </div>
+    </form>
+
+    <div id="resultadoSMT"
+         class="mt-4 p-3 border rounded shadow-sm bg-light text-center fw-semibold">
+    </div>
+
+    <hr class="my-4">
+
+    <!-- ================= SMT INVERSO ================= -->
+    <h6 class="fw-bold">Cálculo Inverso</h6>
+
+    <form id="smtInversoForm" class="row g-3 mt-2">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Meta Hora</label>
+        <input name="meta_hora"
+               class="form-control form-control-lg"
+               type="number"
+               required>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Blank</label>
+        <input name="blank"
+               class="form-control form-control-lg"
+               type="number"
+               required>
+      </div>
+
+      <div class="col-12">
+        <button class="btn btn-outline-primary btn-lg w-100" type="submit">
+          Calcular Tempo de Montagem
+        </button>
+      </div>
+    </form>
+
+    <div id="resultadoInverso"
+         class="mt-3 text-center fw-semibold">
+    </div>
   </div>
 
 </div>
 
+<!-- ================= JS ================= -->
 <script>
-document.getElementById('calcRapidoForm').addEventListener('submit', e => {
+// -------- CÁLCULO RÁPIDO --------
+document.getElementById("usarBlank").addEventListener("change", e => {
+  document.getElementById("campoBlank").classList.toggle("d-none", !e.target.checked);
+});
+
+document.getElementById("calcRapidoForm").addEventListener("submit", e => {
   e.preventDefault();
 
-  const meta_hora  = Number(e.target.meta_hora.value);
-  const minutos    = Number(e.target.minutos.value);
-  const blank      = Number(e.target.blank.value);
-  const usarBlank  = document.getElementById("usarBlank").checked;
+  const f = e.target;
+  const meta = Number(f.meta_hora.value);
+  const min = Number(f.minutos.value);
+  const blank = Number(f.blank?.value || 0);
+  const usarBlank = document.getElementById("usarBlank").checked;
 
-  // cálculo bruto normal
-  let bruto = (meta_hora / 60) * minutos;
+  let bruto = (meta / 60) * min;
+  let resultado = usarBlank && blank > 0
+    ? Math.ceil(bruto / blank) * blank
+    : Math.round(bruto);
 
-  // sem blank → cálculo normal (mantém seu arredondamento atual)
-  if (!usarBlank || blank <= 0) {
-      let decimal = bruto - Math.floor(bruto);
-      let resultado = decimal < 0.50 
-                      ? Math.floor(bruto) 
-                      : Math.ceil(bruto);
-
-      document.getElementById('resultadoCalcRapido').innerHTML =
-        "Resultado: <strong>" + resultado + "</strong>";
-      return;
-  }
-
-  // --- COM BLANK LIGADO ---
-  // Ajuste para múltiplos do blank
-  let resultado_ajustado = Math.ceil(bruto / blank) * blank;
-
-  document.getElementById('resultadoCalcRapido').innerHTML =
-    "Resultado Ajustado: <strong>" + resultado_ajustado + "</strong>";
+  document.getElementById("resultadoCalcRapido").innerHTML =
+    `Resultado: <strong>${resultado}</strong>`;
 });
 
-  // Mostrar ou ocultar o campo Blank
-  document.getElementById("usarBlank").addEventListener("change", function () {
-      const campoBlank = document.getElementById("campoBlank");
-      if (this.checked) {
-          campoBlank.style.display = "block";
-      } else {
-          campoBlank.style.display = "none";
-      }
+// -------- SMT META --------
+document.getElementById("smtForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const resp = await fetch("/api/smt/calcular_meta", {
+    method: "POST",
+    body: new FormData(e.target)
+  });
+
+  const d = await resp.json();
+
+  document.getElementById("resultadoSMT").innerHTML = d.erro
+    ? `<span class="text-danger">${d.erro}</span>`
+    : `
+      Meta Hora: <strong>${d.meta_hora}</strong><br>
+      Meta Teórica: ${d.meta_teorica}<br>
+      Meta c/ Perda: ${d.meta_com_perda}
+    `;
 });
 
+// -------- SMT INVERSO --------
+document.getElementById("smtInversoForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const resp = await fetch("/api/smt/calcular_tempo", {
+    method: "POST",
+    body: new FormData(e.target)
+  });
+
+  const d = await resp.json();
+
+  document.getElementById("resultadoInverso").innerHTML = d.erro
+    ? `<span class="text-danger">${d.erro}</span>`
+    : `⏱ Tempo de montagem: <strong>${d.tempo_montagem} s</strong>`;
+});
 </script>
-
 
 {% endblock %}
