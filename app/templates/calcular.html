@@ -167,37 +167,29 @@ document.getElementById('stopTimer').addEventListener('click', () => {
 </script>
 
 <script>
-document.getElementById('smtForm').addEventListener('submit', async (e) => {
+document.getElementById("smtForm").addEventListener("submit", async e => {
   e.preventDefault();
 
-  const tempo = document.getElementById('tempoMontagem').value;
-  const blank = document.getElementById('blankSMT').value;
+  const fd = new FormData();
+  fd.append("tempo_montagem", document.getElementById("tempoMontagem").value);
+  fd.append("blank", document.getElementById("blankSMT").value);
 
-  const form = new FormData();
-  form.append('tempo_montagem', tempo);
-  form.append('blank', blank);
+  const r = await fetch("/api/smt/calcular_meta", { method: "POST", body: fd });
+  const data = await r.json();
 
-  const resp = await fetch('/api/smt/calcular_meta', {
-    method: 'POST',
-    body: form
-  });
-
-  const data = await resp.json();
-
-  if (data.erro) {
-    document.getElementById('resultadoSMT').innerHTML = data.erro;
+  if (!data.sucesso) {
+    document.getElementById("resultadoSMT").innerHTML =
+      `<span class="text-danger">${data.erro}</span>`;
     return;
   }
 
   document.getElementById("resultadoSMT").innerHTML = `
-    Meta/Hora: <strong>${data.meta_hora}</strong><br>
-    Meta Teórica: <strong>${data.meta_teorica}</strong><br>
-    Meta c/ Perda: <strong>${data.meta_com_perda}</strong>
+    Meta/Hora: <strong>${data.dados.meta_hora}</strong><br>
+    Meta Teórica: <strong>${data.dados.meta_teorica}</strong><br>
+    Meta c/ Perda: <strong>${data.dados.meta_com_perda}</strong>
   `;
 });
 </script>
-
-
 
 <script>
 document.getElementById('calcForm').addEventListener('submit', async e => {
