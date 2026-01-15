@@ -67,10 +67,16 @@ def calcular_meta_smt(tempo_montagem, blank):
     if tempo <= 0 or blank <= 0:
         return {"sucesso": False, "erro": "Valores inválidos"}
 
+    # 1) capacidade teórica por placa
     meta_teorica = 3600 / tempo
+
+    # 2) aplica perda de 10%
     meta_com_perda_placa = meta_teorica * 0.9
+
+    # 3) converte para blank
     meta_com_perda_blank = meta_com_perda_placa * blank
 
+    # 4) GARANTE múltiplo exato do blank (NUNCA arredonda pra cima)
     meta_final = math.floor(meta_com_perda_blank / blank) * blank
 
     return {
@@ -81,6 +87,7 @@ def calcular_meta_smt(tempo_montagem, blank):
             "meta_com_perda": round(meta_com_perda_blank, 2)
         }
     }
+
 
 def calcular_tempo_smt_inverso(meta_hora, blank):
     try:
