@@ -161,12 +161,23 @@ def calculo_rapido(meta_hora, minutos, blank=None):
     }
 
 def atualizar_modelo(dados):
-    codigo = dados.get("codigo")
-    nova_meta = dados.get("nova_meta")
+    codigo = dados["codigo"]
 
-    if not codigo or not nova_meta:
-        return {"sucesso": False, "mensagem": "Dados incompletos"}
+    campos = {}
 
-    modelos_repository.atualizar_meta(codigo, nova_meta)
+    if dados.get("meta_padrao"):
+        campos["meta_padrao"] = dados["meta_padrao"]
+
+    if dados.get("tempo_montagem"):
+        campos["tempo_montagem"] = dados["tempo_montagem"]
+
+    if dados.get("novo_codigo"):
+        campos["codigo"] = dados["novo_codigo"]
+
+    if not campos:
+        return {"sucesso": False, "mensagem": "Nada para atualizar"}
+
+    modelos_repository.atualizar(codigo, campos)
     return {"sucesso": True}
+
 

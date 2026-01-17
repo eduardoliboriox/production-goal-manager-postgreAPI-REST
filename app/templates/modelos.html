@@ -19,21 +19,34 @@
     <h5 class="mb-3 text-warning"><i class="bi bi-pencil-square"></i> Editar Modelo</h5>
     <form id="editarForm" class="row g-3">
       <div class="col-md-3">
-        <label class="form-label">Selecione o modelo</label>
-        <select class="form-select" name="codigo" id="selectEditar" required>
-          {% for c in codigos %}
-            <option>{{ c }}</option>
-          {% endfor %}
-        </select>
+        <label class="form-label">Modelo</label>
+        <select class="form-select" name="codigo" id="selectEditar" required></select>
       </div>
+
       <div class="col-md-3">
         <label class="form-label">Nova Meta/Hora</label>
-        <input class="form-control" name="nova_meta" type="number" placeholder="Deixe vazio para manter">
+        <input class="form-control" name="meta_padrao" type="number" step="0.01"
+              placeholder="Deixe vazio para manter">
       </div>
-      <div class="col-md-3 d-flex align-items-end">
+
+      <div class="col-md-3">
+        <label class="form-label">Novo Tempo de Montagem (s)</label>
+        <input class="form-control" name="tempo_montagem" type="number" step="0.01"
+              placeholder="Deixe vazio para manter">
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Corrigir Código (opcional)</label>
+        <input class="form-control" name="novo_codigo" type="text"
+              placeholder="Só se digitou errado">
+      </div>
+
+      <div class="col-md-12">
         <button class="btn btn-warning w-100">Atualizar</button>
       </div>
+
     </form>
+
   </div>
 
   <!-- ===================== EXCLUIR MODELO ===================== -->
