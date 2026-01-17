@@ -21,8 +21,13 @@ def cadastrar_modelo(dados):
     try:
         modelos_repository.inserir(dados)
         return {"sucesso": True, "mensagem": "Modelo cadastrado"}
-    except Exception:
-        return {"sucesso": False, "mensagem": "Código já existe"}
+    except Exception as e:
+        print("ERRO AO CADASTRAR:", e)
+        return {
+            "sucesso": False,
+            "mensagem": str(e)
+        }
+
 
 def excluir_modelo(dados):
     codigo = dados.get("codigo")
