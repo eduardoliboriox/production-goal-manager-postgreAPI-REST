@@ -43,3 +43,4 @@ document.getElementById("smtInversoForm").addEventListener("submit", async e => 
   document.getElementById("resultadoInverso").innerHTML =
     `Tempo de montagem considerado: <strong>${data.tempo_montagem}s</strong>`;
 });
+

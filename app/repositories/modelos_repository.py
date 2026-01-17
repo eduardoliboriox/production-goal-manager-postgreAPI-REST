@@ -50,10 +50,13 @@ def inserir(dados):
         conn.commit()
 
 
-def excluir(codigo):
+def excluir(codigo, fase):
     with get_db() as conn:
         with conn.cursor() as cur:
-            cur.execute("DELETE FROM modelos WHERE codigo = %s", (codigo,))
+            cur.execute(
+                "DELETE FROM modelos WHERE codigo = %s AND fase = %s",
+                (codigo, fase)
+            )
         conn.commit()
 
 def atualizar_meta(codigo, nova_meta):
@@ -65,15 +68,20 @@ def atualizar_meta(codigo, nova_meta):
             )
         conn.commit()
 
-def atualizar(codigo, campos):
+def atualizar(codigo, fase, campos):
     sets = ", ".join(f"{k} = %s" for k in campos)
-    valores = list(campos.values()) + [codigo]
+    valores = list(campos.values()) + [codigo, fase]
 
     with get_db() as conn:
         with conn.cursor() as cur:
             cur.execute(
-                f"UPDATE modelos SET {sets} WHERE codigo = %s",
+                f"""
+                UPDATE modelos
+                SET {sets}
+                WHERE codigo = %s AND fase = %s
+                """,
                 valores
             )
         conn.commit()
+
 

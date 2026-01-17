@@ -163,6 +163,7 @@ def calculo_rapido(meta_hora, minutos, blank=None):
 
 def atualizar_modelo(dados):
     codigo = dados["codigo"]
+    fase = dados["fase"]
     campos = {}
 
     if dados.get("meta_padrao"):
@@ -180,7 +181,7 @@ def atualizar_modelo(dados):
     if not campos:
         return {"sucesso": False, "mensagem": "Nada para atualizar"}
 
-    modelos_repository.atualizar(codigo, campos)
+    modelos_repository.atualizar(codigo, fase, campos)
     return {"sucesso": True}
 
 

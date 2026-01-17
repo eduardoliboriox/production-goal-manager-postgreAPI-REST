@@ -78,7 +78,11 @@
         <label class="form-label">Selecione o modelo</label>
         <select class="form-select" name="codigo" id="selectExcluir" required>
           {% for c in codigos %}
-            <option>{{ c }}</option>
+          <option value="{{ m.codigo }}|{{ m.fase }}">
+              {{ m.codigo }} — {{ m.fase }}
+          </option>
+
+
           {% endfor %}
         </select>
       </div>
@@ -167,6 +171,9 @@ $(document).ready(function(){
   $('#editarForm').on('submit', async function(e){
       e.preventDefault();
       const fd = new FormData(this);
+      const [codigo, fase] = fd.get("modelo").split("|");
+        fd.append("codigo", codigo);
+        fd.append("fase", fase);
       await fetch('/api/modelos', {method:'PUT', body:fd});
       mostrarMensagem('Modelo atualizado com sucesso!', 'success');
       carregarModelos();
@@ -177,6 +184,9 @@ $(document).ready(function(){
   $('#excluirForm').on('submit', async function(e){
       e.preventDefault();
       const fd = new FormData(this);
+      const [codigo, fase] = fd.get("modelo").split("|");
+        fd.append("codigo", codigo);
+        fd.append("fase", fase);
       await fetch('/api/modelos', {method:'DELETE', body:fd});
       mostrarMensagem('Modelo excluído com sucesso!', 'danger');
       carregarModelos();
@@ -191,7 +201,6 @@ $(document).ready(function(){
       $(this).toggle(texto.includes(termo));
     });
   });
-
 
 });
 </script>
