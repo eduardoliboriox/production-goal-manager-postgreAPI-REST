@@ -15,12 +15,12 @@ def listar_modelos():
                     cliente,
                     setor,
                     meta_padrao,
-                    pessoas_padrao,
                     tempo_montagem,
                     blank,
-                    fase
+                    fase,
+                    criado_em
                 FROM modelos
-                ORDER BY codigo
+                ORDER BY criado_em
             """)
             return cur.fetchall()
 
