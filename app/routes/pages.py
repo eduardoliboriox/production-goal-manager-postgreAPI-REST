@@ -25,3 +25,14 @@ def modelos():
 def calculo():
     return render_template("calcular.html", codigos=listar_codigos())
 
+@bp.route("/perdas", methods=["GET", "POST"])
+def perdas():
+    resultado = None
+
+    if request.method == "POST":
+        meta_hora = request.form.get("meta_hora")
+        producao = request.form.get("producao")
+
+        resultado = calcular_perda_producao(meta_hora, producao)
+
+    return render_template("perdas.html", resultado=resultado)
