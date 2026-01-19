@@ -1,28 +1,72 @@
-Visualize a aplicação real através do link no final deste README.md.
+---
+
+# 🟦 SMT Production Manager
+
+**SMT Production Manager** é um sistema web desenvolvido para **engenharia e produção SMT**, com foco em **padronização de dados**, **cálculos de performance** e **apoio à definição de metas de produção**.
+
+👉 **Visualize a aplicação real através do link no final deste README.**
 
 ---
 
-## 🔹 Estrutura do projeto
+## 🎯 Finalidade
 
-```
+* Cadastro de modelos SMT
+* Base de dados por modelo e fase
+* Definição de meta por hora
+* Quantidade por blank
+* Tempo padrão de montagem
+* Consulta rápida de metas já definidas
+
+---
+
+## 📊 Página de Cálculos
+
+O sistema conta com uma página dedicada a cálculos produtivos, incluindo:
+
+* ⏱️ Tempo para produzir **X unidades** (resultado em `hh:mm:ss`)
+* ⚙️ Cálculo do **tempo de montagem da máquina** (checagem de meta)
+* 🎯 Automação do cálculo de **meta por hora**
+* 🛠️ Ferramenta de **análise manual** (start / stop)
+* 📉 Cálculo de **perda de produção**
+* 📐 Cálculo automático de **meta por hora × minutos**, considerando fator blank
+
+---
+
+## 📱 Plataforma
+
+* Desktop e mobile
+* Versão mobile com layout estilo **app nativo**
+
+---
+
+## ☁️ Infraestrutura
+
+* Servidor em Cloud (**Railway**)
+* Sistema sempre online
+
+---
+
+## 🔹 Estrutura do Projeto
+
+```text
 project/
 ├─ app/
-│   ├─ __init__.py            # screate_app()
-│   ├─ config.py              # Config / env
+│   ├─ __init__.py            # create_app()
+│   ├─ config.py              # Configurações / env
 │   ├─ extensions.py          # DB (psycopg, etc)
 │   │
 │   ├─ routes/
-│   │   ├─ __init__.py        # regitra blueprints
-│   │   ├─ pages.py           # rotas HTML
-│   │   └─ api.py             # rotas REST (JSON)
+│   │   ├─ __init__.py        # Registro de blueprints
+│   │   ├─ pages.py           # Rotas HTML
+│   │   └─ api.py             # Rotas REST (JSON)
 │   │
-│   ├─ services/              # regras de negócio
-│   │   ├─ __init__.py        # pacote services (NÃO blueprint)
+│   ├─ services/              # Regras de negócio
+│   │   ├─ __init__.py
 │   │   ├─ modelos_service.py
 │   │   └─ pcp_service.py
 │   │
-│   ├─ repositories/          # acesso ao banco (SQL)
-│   │   ├─ __init__.py        # pacote repositories
+│   ├─ repositories/          # Acesso ao banco de dados
+│   │   ├─ __init__.py
 │   │   └─ modelos_repository.py
 │   │
 │   ├─ templates/             # Jinja2
@@ -32,77 +76,105 @@ project/
 │   │   ├─ dashboard.html
 │   │   └─ modelos.html
 │   │
-│   └─ static/                # arquivos estáticos
+│   └─ static/
 │       ├─ css/
 │       │   └─ style.css
 │       ├─ js/
 │       │   ├─ main.js
 │       │   └─ pcp.js
 │       ├─ images/
-│       │   ├─ banners/
-│       │   ├─ logos/
-│       │   └─ users/
 │       └─ fonts/
 │           └─ inter.woff2
 │
 ├─ migrations/                # Alembic / Flask-Migrate
 ├─ tests/                     # pytest
-├─ run.py                     # entrypoint da aplicação
+├─ run.py                     # Entrypoint
 ├─ requirements.txt
-├─ Procfile                   # Cloud - Railway
-├─ README.md                  # Documentação principal
+├─ Procfile                   # Railway
+├─ README.md
 ├─ .env                       # NÃO versionar
 ├─ .gitignore
-└─ pyproject.toml             # opcional
+└─ pyproject.toml
 ```
+
 ---
 
 ## ⚙️ Tecnologias Utilizadas
+
 * Python (Flask)
 * HTML5
 * CSS3
 * JavaScript (Vanilla)
 * Jinja2
+* PostgreSQL
 * LocalStorage
 
 ---
 
 ## ▶️ Como Rodar o Projeto
 
+### 1. Clonar o repositório
+
+```bash
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
 ```
-1. Clonar o repositório
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
 
-2. Criar e ativar o ambiente virtual
-   python -m venv venv
-   venv\Scripts\activate
+### 2. Criar e ativar o ambiente virtual
 
-3. Instalar as dependências
-   pip install -r requirements.txt
-
-4. Configurar variáveis de ambiente
-   Crie um arquivo .env na raiz do projeto:
-   FLASK_ENV=development
-   SECRET_KEY=supersecretkey
-   DATABASE_URL=postgresql://user:password@localhost:5432/dbname
-
-5. Rodar a aplicação
-   python run.py
-
-   Depois, acessar no navegador:
-   http://127.0.0.1:5000
+```bash
+python -m venv venv
+venv\Scripts\activate
 ```
+
+### 3. Instalar as dependências
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configurar variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+FLASK_ENV=development
+SECRET_KEY=supersecretkey
+DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+```
+
+### 5. Rodar a aplicação
+
+```bash
+python run.py
+```
+
+Acesse no navegador:
+
+```
+http://127.0.0.1:5000
+```
+
 ---
 
 ## 📌 Observações
+
 * O sistema não utiliza login
-* Os dados da compra atual ficam salvos localmente no navegador
-* O cadastro de produtos é persistido no banco de dados
-* Projeto ideal para uso pessoal ou familiar
+* Dados temporários podem ser salvos localmente no navegador
+* Os modelos cadastrados são persistidos no banco de dados
+* Projeto ideal para uso em engenharia, produção ou controle pessoal
 
 ---
 
-## 👨‍💻 Autor 
-Desenvolvido por Eduardo Libório
-📧 eduardosoleno@protonmail.com
+## 🔗 Acesse a aplicação
+
+👉 **Link:**
+não disponivel
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por **Eduardo Libório**
+📧 [eduardosoleno@protonmail.com](mailto:eduardosoleno@protonmail.com)
+
