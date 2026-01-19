@@ -71,8 +71,15 @@ body {
   padding: 10px 12px;
   border-radius: 8px;
   text-decoration: none;
-  color: var(--text);
+
+  color: #000000;      
+  font-weight: 600;   
 }
+
+.sidebar nav a i {
+  color: #000000;
+}
+
 
 .sidebar nav a:hover,
 .sidebar nav a.active {
