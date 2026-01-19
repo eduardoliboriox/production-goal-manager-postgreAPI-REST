@@ -43,7 +43,7 @@ async function fetchStats() {
   document.getElementById('cardModelos').textContent = modelos.length || 0;
 
   if (modelos.length) {
-    const medias = modelos.map(d => Number(d.meta_padrao) || 0);
+    const medias = modelos.map(d => Number(d.meta) || 0);
     const soma = medias.reduce((a, b) => a + b, 0);
 
     document.getElementById('cardMediaMeta').textContent =
