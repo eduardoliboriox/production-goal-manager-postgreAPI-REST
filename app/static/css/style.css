@@ -263,8 +263,9 @@ body {
   font-size: 0.95rem;
 }
 
-
-
+/* =========================
+   CARD MODELO
+========================= */
 .card-modelo .linha strong {
   color: #495057;
 }
@@ -273,3 +274,19 @@ body {
   border-bottom: 1px dashed #e9ecef;
   padding-bottom: 4px;
 }
+
+/* =========================
+   CHECKBOX PCP – DESKTOP
+========================= */
+@media (min-width: 768px) {
+  #pcpTurnos input[type="checkbox"] {
+    transform: scale(1.4); /* aumenta o tamanho */
+    margin-right: 6px;
+    cursor: pointer;
+  }
+
+  #pcpTurnos {
+    font-size: 1.05rem; /* texto acompanha o checkbox */
+  }
+}
+
