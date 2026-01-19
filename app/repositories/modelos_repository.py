@@ -20,9 +20,9 @@ def listar_modelos():
                     fase,
                     criado_em
                 FROM modelos
-                ORDER BY criado_em
             """)
             return cur.fetchall()
+
 
 def buscar_ultimo_modelo():
     with get_db() as conn:
