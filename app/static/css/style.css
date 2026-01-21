@@ -66,7 +66,7 @@ body {
 
 .sidebar nav a {
   display: flex;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
@@ -82,8 +82,10 @@ body {
 }
 
 .sidebar .logo img {
-  width: 82px;        
-  height: 82px;
+  width: auto;        
+  max-height: 110px;
+  display: block;
+  margin: 0 auto;
   object-fit: contain;
 }
 
