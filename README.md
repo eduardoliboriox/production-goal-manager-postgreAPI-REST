@@ -174,3 +174,10 @@ não disponivel
 Desenvolvido por **Eduardo Libório**
 📧 [eduardosoleno@protonmail.com](mailto:eduardosoleno@protonmail.com)
 
+
+---
+
+## 📄 Licença
+
+Projeto de uso privado / interno.
+
