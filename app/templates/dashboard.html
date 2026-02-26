@@ -4,30 +4,47 @@
 
 {% block content %}
 <div class="container-fluid">
+
   <div class="row g-3 mb-3">
     <div class="col-md-4">
       <div class="card p-3">
-        <h6 class="text-muted">Modelos cadastrados</h6>
+        <h6 class="text-muted mb-1">Modelos cadastrados</h6>
         <div id="cardModelos" class="display-6 fw-bold">—</div>
       </div>
     </div>
+
     <div class="col-md-4">
       <div class="card p-3">
-        <h6 class="text-muted">Média de meta/hora</h6>
+        <h6 class="text-muted mb-1">Média de meta/hora</h6>
         <div id="cardMediaMeta" class="display-6 fw-bold">—</div>
       </div>
     </div>
+
+    <div class="col-md-4">
+      <div class="card p-3">
+        <h6 class="text-muted mb-1">Último modelo</h6>
+        <div id="cardUltimo" class="display-6 fw-bold">—</div>
+      </div>
     </div>
   </div>
 
   <div class="card p-3">
-    <h6>Atalhos</h6>
+    <h6 class="mb-1">Atalhos</h6>
     <div class="d-flex gap-2 flex-wrap mt-2">
-      <a href="{{ url_for('pages.cadastro') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Novo Modelo</a>
-      <a href="{{ url_for('pages.modelos') }}" class="btn btn-outline-primary"><i class="bi bi-table"></i> Ver Modelos</a>
-      <a href="{{ url_for('pages.calculo') }}" class="btn btn-success"><i class="bi bi-calculator"></i> Calcular Meta</a>
+      <a href="{{ url_for('pages.cadastro') }}" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Novo Modelo
+      </a>
+
+      <a href="{{ url_for('pages.modelos') }}" class="btn btn-outline-primary">
+        <i class="bi bi-table"></i> Ver Modelos
+      </a>
+
+      <a href="{{ url_for('pages.calculo') }}" class="btn btn-success">
+        <i class="bi bi-calculator"></i> Calcular Meta
+      </a>
     </div>
   </div>
+
 </div>
 
 <script>
@@ -38,8 +55,8 @@ async function fetchStats() {
   document.getElementById('cardModelos').textContent = modelos.length || 0;
 
   if (modelos.length) {
-    const medias = modelos.map(d => Number(d.meta) || 0);
-    const soma = medias.reduce((a, b) => a + b, 0);
+    const metas = modelos.map(d => Number(d.meta) || 0);
+    const soma = metas.reduce((a, b) => a + b, 0);
 
     document.getElementById('cardMediaMeta').textContent =
       (soma / modelos.length).toFixed(0);
