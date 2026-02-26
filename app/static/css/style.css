@@ -1,35 +1,113 @@
 /* =========================
-   VARIÁVEIS
+   FONT (LOCAL)
 ========================= */
-:root {
-  --sidebar-width: 240px;
-  --header-height: 56px;
-  --bottom-nav-height: 64px;
-
-  --bg: #f8f9fa;
-  --card: #ffffff;
-  --text: #212529;
-  --sdesk: #000000;
-  --primary: #0d6efd;
-  --success-color: #198754;
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/inter.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* =========================
-   RESET BÁSICO
+   DESIGN TOKENS
 ========================= */
-* {
-  box-sizing: border-box;
+:root {
+  --sidebar-width: 260px;
+  --header-height: 60px;
+  --bottom-nav-height: 68px;
+
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+
+  --border: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.12);
+
+  --primary: #2563eb;
+  --primary-weak: rgba(37, 99, 235, 0.10);
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --danger: #dc2626;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+  --radius: 14px;
+  --radius-sm: 10px;
+
+  --focus: 0 0 0 0.25rem rgba(37, 99, 235, 0.20);
 }
+
+/* =========================
+   RESET
+========================= */
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
 
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* =========================
-   ESTRUTURA GERAL
+   CONTAINERS / HELPERS
+========================= */
+.container-fluid {
+  max-width: 1240px;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.card.shadow-sm,
+.card.shadow {
+  box-shadow: var(--shadow);
+}
+
+hr {
+  border-color: var(--border);
+  opacity: 1;
+}
+
+/* =========================
+   FORMS (POLISH)
+========================= */
+.form-control,
+.form-select {
+  border-radius: 12px;
+  border-color: var(--border-strong);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: rgba(37, 99, 235, 0.50);
+  box-shadow: var(--focus);
+}
+
+.btn {
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.btn-lg {
+  border-radius: 14px;
+}
+
+.btn-outline-secondary {
+  border-color: var(--border-strong);
+}
+
+/* =========================
+   APP SHELL
 ========================= */
 .app {
   display: flex;
@@ -37,7 +115,7 @@ body {
 }
 
 /* =========================
-   SIDEBAR DESKTOP
+   SIDEBAR (DESKTOP)
 ========================= */
 .sidebar {
   position: fixed;
@@ -46,57 +124,73 @@ body {
   width: var(--sidebar-width);
   height: 100vh;
   background: #ffffff;
-  border-right: 1px solid rgba(0,0,0,0.08);
-  padding: 20px 16px;
+  border-right: 1px solid var(--border);
+  padding: 18px 14px;
   display: flex;
   flex-direction: column;
+  z-index: 150;
 }
 
 .sidebar .logo {
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+
+.sidebar .logo img {
+  width: auto;
+  max-height: 92px;
+  display: block;
+  object-fit: contain;
 }
 
 .sidebar nav {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  padding-top: 6px;
 }
 
 .sidebar nav a {
   display: flex;
-  font-size: 1.2rem;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: 12px;
   text-decoration: none;
-
-  color: #000000;      
-  font-weight: 600;   
+  color: var(--text);
+  font-weight: 750;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.05s ease;
 }
 
 .sidebar nav a i {
-  color: #000000;
+  font-size: 18px;
+  color: var(--muted);
+  transition: color 0.15s ease;
 }
 
-.sidebar .logo img {
-  width: auto;        
-  max-height: 110px;
-  display: block;
-  margin: 0 auto;
-  object-fit: contain;
+.sidebar nav a:hover {
+  background: rgba(15, 23, 42, 0.04);
 }
 
-.sidebar nav a:hover,
+.sidebar nav a:active {
+  transform: translateY(1px);
+}
+
 .sidebar nav a.active {
-  background: rgba(13,110,253,0.08);
+  background: var(--primary-weak);
+  color: var(--primary);
+}
+
+.sidebar nav a.active i {
   color: var(--primary);
 }
 
 /* =========================
-   MAIN (DESKTOP)
+   MAIN
 ========================= */
 .main {
   margin-left: var(--sidebar-width);
@@ -104,7 +198,7 @@ body {
 }
 
 /* =========================
-   HEADER DESKTOP
+   HEADER (DESKTOP)
 ========================= */
 .desktop-header {
   position: fixed;
@@ -112,24 +206,31 @@ body {
   left: var(--sidebar-width);
   right: 0;
   height: var(--header-height);
-  background: #ffffff;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  padding: 0 20px;
-  z-index: 100;
+  padding: 0 18px;
+  z-index: 120;
+}
+
+.desktop-header h5 {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.2px;
 }
 
 /* =========================
-   CONTEÚDO
+   CONTENT
 ========================= */
 .content {
-  padding: 20px;
-  padding-top: calc(var(--header-height) + 20px);
+  padding: 18px;
+  padding-top: calc(var(--header-height) + 18px);
 }
 
 /* =========================
-   HEADER MOBILE (FIXO)
+   MOBILE HEADER (FIXO)
 ========================= */
 .mobile-header {
   position: fixed;
@@ -137,35 +238,46 @@ body {
   left: 0;
   right: 0;
   height: var(--header-height);
-  background: #ffffff;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 16px;
-  z-index: 200;
+  padding: 0 14px;
+  z-index: 220;
 }
 
 .mobile-left {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
+}
+
+.username {
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 78vw;
 }
 
 .mobile-right i {
   font-size: 18px;
-  margin-left: 14px;
+  color: var(--muted);
 }
 
 .avatar {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   overflow: hidden;
-  background: #f1f1f1;
+  background: #f1f5f9;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid var(--border);
 }
 
 .avatar img {
@@ -174,9 +286,8 @@ body {
   object-fit: cover;
 }
 
-
 /* =========================
-   BOTTOM NAV MOBILE (SPOTIFY)
+   BOTTOM NAV (MOBILE)
 ========================= */
 .bottom-nav {
   position: fixed;
@@ -184,111 +295,109 @@ body {
   left: 0;
   right: 0;
   height: var(--bottom-nav-height);
-  background: #ffffff;
-  border-top: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  z-index: 200;
+  z-index: 220;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .bottom-nav a {
   text-decoration: none;
-  color: var(--text);
+  color: var(--muted);
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 2px;
   font-size: 11px;
+  font-weight: 750;
+  padding: 8px 10px;
+  border-radius: 14px;
 }
 
 .bottom-nav i {
   font-size: 20px;
-  margin-bottom: 2px;
 }
 
 .bottom-nav a.active {
   color: var(--primary);
+  background: var(--primary-weak);
 }
 
 /* =========================
-   AJUSTES MOBILE
+   MOBILE BREAKPOINT
 ========================= */
 @media (max-width: 767px) {
-
-  .sidebar {
-    display: none;
-  }
-
-  .main {
-    margin-left: 0;
-  }
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
 
   .content {
-    padding-top: calc(var(--header-height) + 16px);
-    padding-bottom: calc(var(--bottom-nav-height) + 16px);
+    padding-top: calc(var(--header-height) + 14px);
+    padding-bottom: calc(var(--bottom-nav-height) + 14px + env(safe-area-inset-bottom));
   }
 
-  .desktop-header {
-    display: none;
-  }
+  .desktop-header { display: none; }
 }
 
 /* ==========================
-   CARTÕES DE MODELO
+   CARD MODELOS (GRID)
 ========================= */
 .card-modelo {
-  border: 1px solid #dee2e6;
-  border-radius: 10px;
-  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
   background: #fff;
   height: 100%;
-  border-left: 4px solid var(--success-color);
+  border-left: 4px solid var(--success);
+  box-shadow: var(--shadow-sm);
 }
 
 .card-modelo .codigo {
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 900;
+  font-size: 1.05rem;
+  letter-spacing: -0.2px;
 }
 
 .card-modelo .cliente {
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 800;
   color: #fff;
-  background-color: #198754; 
+  background-color: var(--success);
   padding: 4px 10px;
-  border-radius: 6px;
+  border-radius: 999px;
   white-space: nowrap;
 }
 
 .card-modelo .linha {
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 0.95rem;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(15, 23, 42, 0.10);
 }
 
-/* =========================
-   CARD MODELO
-========================= */
+.card-modelo .linha:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
 .card-modelo .linha strong {
-  color: #495057;
-}
-
-.card-modelo .linha {
-  border-bottom: 1px dashed #e9ecef;
-  padding-bottom: 4px;
+  color: rgba(15, 23, 42, 0.70);
 }
 
 /* =========================
-   CHECKBOX PCP – DESKTOP
+   PCP CHECKBOX (DESKTOP)
 ========================= */
 @media (min-width: 768px) {
   #pcpTurnos input[type="checkbox"] {
-    transform: scale(1.4); /* aumenta o tamanho */
-    margin-right: 6px;
+    transform: scale(1.35);
+    margin-right: 8px;
     cursor: pointer;
   }
 
   #pcpTurnos {
-    font-size: 1.05rem; /* texto acompanha o checkbox */
+    font-size: 1.05rem;
   }
 }
-

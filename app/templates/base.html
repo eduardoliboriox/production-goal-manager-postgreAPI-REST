@@ -29,7 +29,7 @@
     <div class="avatar">
       <img src="{{ url_for('static', filename='images/logos/logo.jpeg') }}" alt="Venttos">
     </div>
-    <span class="username fw-bold">Venttos - SMT Production Manager</span>
+    <span class="username">Venttos - SMT Production Manager</span>
   </div>
 
   <div class="mobile-right">
@@ -40,35 +40,34 @@
 <!-- ================= APP ================= -->
 <div class="app">
 
-<!-- SIDEBAR DESKTOP -->
-<aside class="sidebar d-none d-md-flex">
-  <div class="logo">
-    <img src="{{ url_for('static', filename='images/logos/logo-sidebar-desktop.png') }}" alt="Venttos">
-  </div>
+  <!-- SIDEBAR DESKTOP -->
+  <aside class="sidebar d-none d-md-flex">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logos/logo-sidebar-desktop.png') }}" alt="Venttos">
+    </div>
 
-  <nav>
-    <a href="{{ url_for('pages.dashboard') }}"
-       class="{% if request.endpoint == 'pages.dashboard' %}active{% endif %}">
-      <i class="bi bi-house"></i> Dashboard
-    </a>
+    <nav>
+      <a href="{{ url_for('pages.dashboard') }}"
+         class="{% if request.endpoint == 'pages.dashboard' %}active{% endif %}">
+        <i class="bi bi-house"></i> Dashboard
+      </a>
 
-    <a href="{{ url_for('pages.cadastro') }}"
-       class="{% if request.endpoint == 'pages.cadastro' %}active{% endif %}">
-      <i class="bi bi-plus-square"></i> Cadastro
-    </a>
+      <a href="{{ url_for('pages.cadastro') }}"
+         class="{% if request.endpoint == 'pages.cadastro' %}active{% endif %}">
+        <i class="bi bi-plus-square"></i> Cadastro
+      </a>
 
-    <a href="{{ url_for('pages.modelos') }}"
-       class="{% if request.endpoint == 'pages.modelos' %}active{% endif %}">
-      <i class="bi bi-table"></i> Modelos
-    </a>
+      <a href="{{ url_for('pages.modelos') }}"
+         class="{% if request.endpoint == 'pages.modelos' %}active{% endif %}">
+        <i class="bi bi-table"></i> Modelos
+      </a>
 
-    <a href="{{ url_for('pages.calculo') }}"
-       class="{% if request.endpoint == 'pages.calculo' %}active{% endif %}">
-      <i class="bi bi-calculator"></i> Cálculos
-    </a>
-  </nav>
-</aside>
-
+      <a href="{{ url_for('pages.calculo') }}"
+         class="{% if request.endpoint == 'pages.calculo' %}active{% endif %}">
+        <i class="bi bi-calculator"></i> Cálculos
+      </a>
+    </nav>
+  </aside>
 
   <!-- MAIN -->
   <main class="main">
@@ -76,7 +75,6 @@
       <h5>{% block page_title %}{% endblock %}</h5>
     </header>
 
-    <!-- 🔴 BLOCO ÚNICO -->
     <section class="content">
       {% block content %}{% endblock %}
     </section>
@@ -105,22 +103,18 @@
     <i class="bi bi-calculator bottom-icon"></i>
     <small>Cálculos</small>
   </a>
-
-  <!--<a href="{{ url_for('pages.perdas') }}" class="bottom-item">
-    <i class="bi bi-exclamation-triangle bottom-icon"></i>
-    <small>Perdas</small>-->
-  </a>
 </nav>
 
 <script>
+  // Ativa item do bottom-nav por pathname (evita falhas por querystring/https etc.)
+  const current = window.location.pathname.replace(/\/$/, '') || '/';
   document.querySelectorAll('.bottom-item').forEach(link => {
-    if (link.href === window.location.href) {
-      link.classList.add('active')
-    }
-  })
+    const href = new URL(link.href).pathname.replace(/\/$/, '') || '/';
+    if (href === current) link.classList.add('active');
+  });
 </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- PWA -->
