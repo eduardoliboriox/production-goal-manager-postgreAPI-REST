@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Sistema{% endblock %}</title>
 
-  <!-- PWA -->
   <meta name="theme-color" content="#0e2538">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,23 +12,20 @@
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/logos/icon-logo-mobile.png') }}">
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logos/pwa-192.png') }}">
 
-  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-  <!-- CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-<!-- ================= HEADER MOBILE ================= -->
 <header class="mobile-header d-md-none">
   <div class="mobile-left">
     <div class="avatar">
       <img src="{{ url_for('static', filename='images/logos/logo.jpeg') }}" alt="Venttos">
     </div>
-    <span class="username fw-bold">Venttos - SMT Production Manager</span>
+    <span class="username">Venttos - SMT Production Manager</span>
   </div>
 
   <div class="mobile-right">
@@ -37,38 +33,35 @@
   </div>
 </header>
 
-<!-- ================= APP ================= -->
 <div class="app">
 
-<!-- SIDEBAR DESKTOP -->
-<aside class="sidebar d-none d-md-flex">
-  <div class="logo">
-    <img src="{{ url_for('static', filename='images/logos/logo-sidebar-desktop.png') }}" alt="Venttos">
-  </div>
+  <aside class="sidebar d-none d-md-flex">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logos/logo-sidebar-desktop.png') }}" alt="Venttos">
+    </div>
 
-  <nav>
-    <a href="{{ url_for('pages.dashboard') }}"
-       class="{% if request.endpoint == 'pages.dashboard' %}active{% endif %}">
-      <i class="bi bi-house"></i> Dashboard
-    </a>
+    <nav>
+      <a href="{{ url_for('pages.dashboard') }}"
+         class="{% if request.endpoint == 'pages.dashboard' %}active{% endif %}">
+        <i class="bi bi-house"></i> Dashboard
+      </a>
 
-    <a href="{{ url_for('pages.cadastro') }}"
-       class="{% if request.endpoint == 'pages.cadastro' %}active{% endif %}">
-      <i class="bi bi-plus-square"></i> Cadastro
-    </a>
+      <a href="{{ url_for('pages.cadastro') }}"
+         class="{% if request.endpoint == 'pages.cadastro' %}active{% endif %}">
+        <i class="bi bi-plus-square"></i> Cadastro
+      </a>
 
-    <a href="{{ url_for('pages.modelos') }}"
-       class="{% if request.endpoint == 'pages.modelos' %}active{% endif %}">
-      <i class="bi bi-table"></i> Modelos
-    </a>
+      <a href="{{ url_for('pages.modelos') }}"
+         class="{% if request.endpoint == 'pages.modelos' %}active{% endif %}">
+        <i class="bi bi-table"></i> Modelos
+      </a>
 
-    <a href="{{ url_for('pages.calculo') }}"
-       class="{% if request.endpoint == 'pages.calculo' %}active{% endif %}">
-      <i class="bi bi-calculator"></i> Cálculos
-    </a>
-  </nav>
-</aside>
-
+      <a href="{{ url_for('pages.calculo') }}"
+         class="{% if request.endpoint == 'pages.calculo' %}active{% endif %}">
+        <i class="bi bi-calculator"></i> Cálculos
+      </a>
+    </nav>
+  </aside>
 
   <!-- MAIN -->
   <main class="main">
@@ -76,7 +69,6 @@
       <h5>{% block page_title %}{% endblock %}</h5>
     </header>
 
-    <!-- 🔴 BLOCO ÚNICO -->
     <section class="content">
       {% block content %}{% endblock %}
     </section>
@@ -84,7 +76,6 @@
 
 </div>
 
-<!-- ================= BOTTOM NAV MOBILE ================= -->
 <nav class="bottom-nav d-md-none">
   <a href="{{ url_for('pages.dashboard') }}" class="bottom-item">
     <i class="bi bi-house bottom-icon"></i>
@@ -105,22 +96,18 @@
     <i class="bi bi-calculator bottom-icon"></i>
     <small>Cálculos</small>
   </a>
-
-  <!--<a href="{{ url_for('pages.perdas') }}" class="bottom-item">
-    <i class="bi bi-exclamation-triangle bottom-icon"></i>
-    <small>Perdas</small>-->
-  </a>
 </nav>
 
 <script>
+  // Ativa item do bottom-nav por pathname (evita falhas por querystring/https etc.)
+  const current = window.location.pathname.replace(/\/$/, '') || '/';
   document.querySelectorAll('.bottom-item').forEach(link => {
-    if (link.href === window.location.href) {
-      link.classList.add('active')
-    }
-  })
+    const href = new URL(link.href).pathname.replace(/\/$/, '') || '/';
+    if (href === current) link.classList.add('active');
+  });
 </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- PWA -->
