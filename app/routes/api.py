@@ -1,105 +1,143 @@
-from flask import Blueprint, request, jsonify
-from app.services import modelos_service
-from app.services.modelos_service import calcular_perda_producao, calcular_meta_smt, calcular_tempo_smt_inverso
-from app.services.pcp_service import calcular_pcp
+from flask import Blueprint, jsonify, request
+
+from app.services import modelos_service, pcp_service
 
 bp = Blueprint("api", __name__)
 
-@bp.route("/modelos", methods=["GET"])
-def listar():
+
+@bp.get("/modelos")
+def listar_modelos():
     return jsonify(modelos_service.listar())
 
-@bp.route("/modelos", methods=["PUT"])
-def atualizar():
-    return jsonify(modelos_service.atualizar_modelo(request.form))
 
-@bp.route("/modelos", methods=["POST"])
-def cadastrar():
-    dados = request.form
-    return jsonify(modelos_service.cadastrar_modelo(dados))
+@bp.post("/modelos")
+def cadastrar_modelo():
+    dados = {
+        "codigo": request.form.get("codigo", "").strip(),
+        "cliente": request.form.get("cliente", "").strip(),
+        "setor": request.form.get("setor", "").strip(),
+        "linha": request.form.get("linha", "").strip(),
+        "meta_padrao": request.form.get("meta_padrao", "").strip(),
+        "tempo_montagem": request.form.get("tempo_montagem", "").strip() or None,
+        "blank": request.form.get("blank", "").strip(),
+        "fase": request.form.get("fase", "").strip(),
+    }
 
-@bp.route("/modelos", methods=["DELETE"])
-def excluir():
-    dados = request.form
-    return jsonify(modelos_service.excluir_modelo(dados))
+    # validações básicas rápidas (mantém o service como fonte)
+    if not dados["codigo"]:
+        return jsonify({"sucesso": False, "mensagem": "Código não informado"}), 400
+    if not dados["fase"]:
+        return jsonify({"sucesso": False, "mensagem": "Fase não informada"}), 400
+    if not dados["linha"]:
+        return jsonify({"sucesso": False, "mensagem": "Linha não informada"}), 400
 
-@bp.route("/modelos/calcular", methods=["POST"])
-def calcular_meta():
-    return jsonify(modelos_service.calcular_meta(request.form))
+    resp = modelos_service.cadastrar_modelo(dados)
+    status = 200 if resp.get("sucesso") else 400
+    return jsonify(resp), status
 
-@bp.route("/calcular_perda", methods=["POST"])
-def calcular_perda():
-    meta_hora = float(request.form.get("meta_hora"))
-    producao_real = float(request.form.get("producao_real"))
 
-    resultado = calcular_perda_producao(meta_hora, producao_real)
+@bp.put("/modelos")
+def atualizar_modelo():
+    dados = {
+        "codigo": request.form.get("codigo", "").strip(),
+        "fase": request.form.get("fase", "").strip(),
+        "linha": request.form.get("linha", "").strip(),
+        "meta_padrao": request.form.get("meta_padrao", "").strip(),
+        "tempo_montagem": request.form.get("tempo_montagem", "").strip(),
+        "blank": request.form.get("blank", "").strip(),
+        "novo_codigo": request.form.get("novo_codigo", "").strip(),
+    }
 
-    return jsonify(resultado)
+    if not dados["codigo"] or not dados["fase"] or not dados["linha"]:
+        return jsonify({"sucesso": False, "mensagem": "Código, fase e linha são obrigatórios"}), 400
 
-@bp.route("/smt/calcular_meta", methods=["POST"])
-def api_calcular_meta_smt():
-    tempo = request.form.get("tempo_montagem")
-    blank = request.form.get("blank")
+    resp = modelos_service.atualizar_modelo(dados)
+    status = 200 if resp.get("sucesso") else 400
+    return jsonify(resp), status
 
-    if not tempo or not blank:
-        return jsonify({"erro": "Tempo de montagem e blank são obrigatórios"}), 400
 
-    return jsonify(calcular_meta_smt(tempo, blank))
+@bp.delete("/modelos")
+def excluir_modelo():
+    dados = {
+        "codigo": request.form.get("codigo", "").strip(),
+        "fase": request.form.get("fase", "").strip(),
+        "linha": request.form.get("linha", "").strip(),
+    }
 
-@bp.route("/smt/calcular_tempo", methods=["POST"])
-def api_calcular_tempo_smt():
-    meta = request.form.get("meta_hora")
-    blank = request.form.get("blank")
+    resp = modelos_service.excluir_modelo(dados)
+    status = 200 if resp.get("sucesso") else 400
+    return jsonify(resp), status
 
-    if not meta or not blank:
-        return jsonify({"erro": "Meta hora e blank são obrigatórios"}), 400
 
-    return jsonify(calcular_tempo_smt_inverso(meta, blank))
+@bp.post("/modelos/calculo_rapido")
+def calculo_rapido():
+    meta_hora = request.form.get("meta_hora", "").strip()
+    minutos = request.form.get("minutos", "").strip()
+    blank = request.form.get("blank", "").strip() if "blank" in request.form else None
 
-@bp.route("/modelos/calculo_rapido", methods=["POST"])
-def api_calculo_rapido():
     try:
-        meta_hora = float(request.form.get("meta_hora"))
-        minutos = float(request.form.get("minutos"))
-        blank = request.form.get("blank")
+        meta_hora = float(meta_hora)
+        minutos = int(minutos)
+        blank_val = int(blank) if blank not in (None, "", "0") else None
+    except Exception:
+        return jsonify({"sucesso": False, "erro": "Valores inválidos"}), 400
 
-        if blank:
-            blank = int(blank)
-        else:
-            blank = None
+    dados = modelos_service.calculo_rapido(meta_hora, minutos, blank_val)
+    return jsonify({"sucesso": True, "dados": dados})
 
-        resultado = modelos_service.calculo_rapido(
-            meta_hora=meta_hora,
-            minutos=minutos,
-            blank=blank
-        )
 
-        return jsonify({
-            "sucesso": True,
-            "dados": resultado
-        })
+@bp.post("/smt/calcular_meta")
+def smt_calcular_meta():
+    tempo_montagem = request.form.get("tempo_montagem", "").strip()
+    blank = request.form.get("blank", "").strip()
 
-    except Exception as e:
-        return jsonify({
-            "sucesso": False,
-            "erro": "Erro no cálculo rápido"
-        }), 400
+    resp = modelos_service.calcular_meta_smt(tempo_montagem, blank)
+    return jsonify(resp)
 
-@bp.route("/pcp/calcular", methods=["POST"])
-def api_calcular_pcp():
-    dados = request.json
 
-    resultado = calcular_pcp(
-        total_op=int(dados["total_op"]),
-        produzido=int(dados["produzido"]),
-        hora_inicio=dados["hora_inicio"],
-        meta_hora=float(dados["meta_hora"]),
-        blank=int(dados["blank"]),
-        turnos_aplicados=dados["turnos"],
-        considerar_refeicao=dados["refeicao"]
+@bp.post("/smt/calcular_tempo")
+def smt_calcular_tempo():
+    meta_hora = request.form.get("meta_hora", "").strip()
+    blank = request.form.get("blank", "").strip()
+
+    resp = modelos_service.calcular_tempo_smt_inverso(meta_hora, blank)
+    return jsonify(resp)
+
+
+@bp.post("/pcp/calcular")
+def calcular_pcp():
+    payload = request.get_json(silent=True) or {}
+
+    try:
+        total_op = int(payload.get("total_op", 0))
+        produzido = int(payload.get("produzido", 0))
+        meta_hora = float(payload.get("meta_hora", 0))
+        blank = int(payload.get("blank", 0))
+        hora_inicio = str(payload.get("hora_inicio", "")).strip()
+        turnos = payload.get("turnos", []) or []
+        refeicao = bool(payload.get("refeicao", False))
+    except Exception:
+        return jsonify({"erro": "Payload inválido"}), 400
+
+    resp = pcp_service.calcular_pcp(
+        total_op=total_op,
+        produzido=produzido,
+        hora_inicio=hora_inicio,
+        meta_hora=meta_hora,
+        blank=blank,
+        turnos_aplicados=turnos,
+        considerar_refeicao=refeicao,
     )
-
-    return jsonify(resultado)
-
+    return jsonify(resp)
 
 
+@bp.post("/calcular_perda")
+def calcular_perda():
+    meta_hora = request.form.get("meta_hora", "").strip()
+    producao_real = request.form.get("producao_real", "").strip()
+
+    try:
+        resp = modelos_service.calcular_perda_producao(meta_hora, producao_real)
+        return jsonify(resp)
+    except Exception:
+        return jsonify({"erro": "Erro ao calcular perda"}), 400
