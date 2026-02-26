@@ -272,11 +272,23 @@ document.getElementById("smtForm").addEventListener("submit", async e => {
   }
 
   const metaOperacional = data.dados.meta_hora;
-  const capacidadePlacas = data.dados.meta_teorica_placas ?? null;
-  const capacidadeBlanks = data.dados.meta_teorica ?? null;
 
-  // Fallback (caso ainda não tenha deployado o backend novo)
-  const capacidadeFallback = capacidadePlacas ?? (capacidadeBlanks ? (Number(capacidadeBlanks) * Number(blank)) : null);
+  const capacidadePlacasInt = data.dados.meta_teorica_placas ?? null;
+  const capacidadeBlanksInt = data.dados.meta_teorica_blanks ?? null;
+
+  let capacidadeFallback = null;
+  if (capacidadePlacasInt !== null) {
+    capacidadeFallback = Number(capacidadePlacasInt);
+  } else if (capacidadeBlanksInt !== null) {
+    capacidadeFallback = Number(capacidadeBlanksInt) * Number(blank);
+  } else {
+    const t = Number(tempo);
+    const b = Number(blank);
+    if (t > 0 && b > 0) {
+      const blanksPorHoraInt = Math.floor(3600 / t);
+      capacidadeFallback = blanksPorHoraInt * b;
+    }
+  }
 
   document.getElementById("resultadoSMT").innerHTML = `
     Meta Operacional: <strong>${metaOperacional}</strong><br>
@@ -374,7 +386,6 @@ document.getElementById("smtInversoForm").addEventListener("submit", async e => 
   document.getElementById("resultadoInverso").innerHTML =
     `Tempo de montagem considerado: <strong>${data.dados.tempo_montagem}s</strong>`;
 });
-
 </script>
 
 <script>
@@ -416,7 +427,6 @@ btnCopiarPerda.addEventListener('click', async () => {
   }, 1500);
 });
 </script>
-
 
 <script src="{{ url_for('static', filename='js/pcp.js') }}"></script>
 
